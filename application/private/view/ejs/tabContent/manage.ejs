@@ -1,0 +1,43 @@
+<!--
+ * Manage Tab EJS template
+ * @file: /application/private/view/ejs/tabContent/manage.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles all the manage tab content.
+-->
+
+<div class="row-fluid">
+    <div class="span12"></div>
+    <h3 class="span12 subheader">To Use this Website as a Manager:</h3>
+    <div class="span6">
+        <p>
+            <ul>
+                <li>Login below to be able to edit or delete observations.</li>
+                <li>You may then edit an observation after finding and clicking on it through the <b>Map</b> or <b>List</b> tab.</li>
+                <li>Once logged in and in a Observation Details Popover Screen your editing options will always be presented to you at the bottom of the popover screen.</li>
+                <li>Make sure to click the save button when you are done editing an observation.</li>
+            </ul>
+        </p>
+        <% if(manager){ %>
+
+        <label>You are logged in as a manager! </label>
+        <form class="form-inline" action="/manage/logout" method="post">
+            <button type="submit" class="btn">Log out</button>
+        </form>
+
+        <% }else { %>
+        <form class="form-inline" action="/manage/login" method="post">
+            <input type="text" name="username"  placeholder="Username">
+            <input type="password" name="password"  placeholder="Password">
+            <button type="submit" class="btn">Sign in</button>
+        </form>
+        <% } %>
+        <p>Interested in becoming a data manager for this site or one just like it? Send an email to
+            <a href="mailto:<%=about.team.Configurer.email %>"><%=about.team.Configurer.email %></a></p>
+    </div>
+    <div class="span3"><img src="<%= typeConfig.about.images.manager %>"/></div>
+    <div class="span3"></div>
+
+
+</div>
+
+

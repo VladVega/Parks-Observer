@@ -1,0 +1,15 @@
+{
+    "name": "node-example",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "2.5.x",
+        "mongodb": "0.9.x",
+        "underscore":"1.4.x",
+        "async":"0.1.x",
+        "ejs": "0.8.x"
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    }
+}

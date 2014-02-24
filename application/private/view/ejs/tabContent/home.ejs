@@ -1,0 +1,34 @@
+<!--
+ * Home Tab EJS template
+ * @file: /application/private/view/ejs/tabContent/home.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles all the home tab content.
+-->
+<div class="row-fluid homeCntrl" ng-controller="HomeCntrl">
+    <div class="span12"></div>
+
+    <div class="span5">
+        <% var teaser, teasers= typeConfig.home;
+        for (var i=0; i < teasers.length; i++){
+            teaser= teasers[i]    %>
+
+            <h4 class="subheader"><%= teaser.title %></h4>
+            <p class="homeText"><%= teaser.subtext %>
+                <% if(teaser.linkName){ %>
+                    <a href="#/<%= teaser.linkName %>/">here</a>.
+                <% } %>
+            </p>
+
+        <% } %>
+
+    </div>
+
+    <div class="span5 offset1">
+        <a href="#/map/">
+            <div id="map_canvas_static" ></div><br>
+            <strong>Click on the map for an interactive version of all observations.</strong>
+        </a>
+    </div>
+</div>
+
+

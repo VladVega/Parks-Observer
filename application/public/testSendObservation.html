@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        /*
+                //General fields:
+        *      location: [40.88888, -50.678898],
+        *      observation_date: (optional. If included it can be any format recognizable by javascript Date Object)
+        *
+        *      //Parks fields
+        *      description: 'string'
+        *      issue_type:'string',
+        *      email:'string',
+        *
+        *      */
+    </script>
+
+</head>
+<body>
+<form name="input" action="/observe/" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" size="40"><br><br>
+    Location: <input type="text" name="location" value="[40.88888, -50.678898]"><br><br>
+    Issue Type: <input type="text" name="issue_type" value="broken bench"><br><br>
+    Email: <input type="text" name="email" value="vPark@google.com"><br><br>
+    Description: <input type="text" name="description" value="Ths is a sample desc"><br><br>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

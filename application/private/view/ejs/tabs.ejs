@@ -1,0 +1,31 @@
+<!--
+ * Tabs EJS template
+ * @file: /application/private/view/ejs/tabs.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles the tab html that gets rewitten to work with angularJS tabs.
+-->
+<div class="tabModule well" >
+    <tabs class="tabsList">
+        <pane title="Home" name="home" tooltip="About the Project">
+            <%- partial('tabContent/home') %>
+        </pane>
+        <pane title="Add-Observation" name='send' tooltip="Add an Observation">
+            <%- partial('tabContent/add') %>
+        </pane>
+        <pane class="map" title="Map-View" tooltip="Map of Observations" name="map">
+            <%- partial('tabContent/map') %>
+        </pane>
+        <pane title="List-View" name="list"  tooltip="Sortable List of Observations">
+            <%- partial('tabContent/list') %>
+        </pane>
+        <pane title="About" name='about' tooltip="Learn about the product and the team">
+            <%- partial('tabContent/about') %>
+        </pane>
+        <pane title="Managers" name='manage' tooltip="Manager Instructions">
+            <%- partial('tabContent/manage') %>
+        </pane>
+        <pane title="Contact Us" name='contact' tooltip="Contact the Developer">
+            <%- partial('tabContent/contact') %>
+        </pane>
+    </tabs>
+</div>

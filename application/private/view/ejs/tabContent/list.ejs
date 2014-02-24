@@ -1,0 +1,66 @@
+<!--
+ * List Tab EJS template
+ * @file: /application/private/view/ejs/tabContent/list.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles all the list tab content.
+-->
+
+<h3 class="subheader">
+    <div class="row">
+        <div class="span8">Sortable List of Observations Added By Users </div>
+        <div class="span2"><span data-original-title="You are viewing observation data in table format.
+                    Click on any table row to obtain complete information about the observation in the Observation Details Popover Screen.
+                    <% if(manager){ %>
+                        This popover screen will also allow you to edit and delete an observation.
+                    <% }%>
+                    Selecting different filtration or sorting options will immediately reload the data." class="instructions-tooltip">Need Help?</span></div>
+    </div>
+</h3>
+<div class="listCntrl" ng-controller="ListCntrl" >
+
+    <form class="well filter-container form-inline">
+        <strong class="filter-label">Filter By:</strong><br>
+        <label class="filter">Show Past:
+            <select class="span2" ng-model="daysLimit"
+                    ng-options="d.name for d in daysLimits"
+                    ng-change="getData(true)"></select>
+        </label>
+        <label class="filter">Maximum# to display:
+            <select class="span2" ng-model="maxItemsLimit" ng-options="d.name for d in maxItemsLimits" ng-change="getData(true)"></select>
+        </label>
+        <% typeConfig.fields.forEach(function(fieldObj){
+            if(fieldObj.filterable){ %>
+                <label class="filter"><%= fieldObj.ui_label %>
+                    <% if(fieldObj.tooltip_description){ %>
+                        <b class="toolTip_description" title="<%= fieldObj.tooltip_description %>">(?)</b>
+                    <% } %>:
+                    <select class="span2" ng-model="<%= fieldObj.db_field_name  %>" ng-options="d.name for d in <%= fieldObj.db_field_name  %>s" ng-change="getData(true)"></select>
+                </label>
+        <% }}) %>
+    </form>
+    <span class="total-num-results">
+        <span>Showing {{showObservationNumbers}} of {{totalCount}} observations</span>
+    </span>
+
+    <table class="list rounded-corners table table-striped">
+        <thead>
+        <tr>
+            <th ng:repeat="col in columns" ng:class="selectedCls(col.fieldKey)" ng:click="changeSorting(col.fieldKey)">{{col.name}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="rows" ng:repeat="row in dataResult" ng-click="openModal(row)">
+            <td>{{formatDate(row.observation_date)}}</td>
+            <td>{{row.location}}</td>
+            <% typeConfig.fields.forEach(function(fieldObj){ %>
+                <td>{{row.<%= fieldObj.db_field_name %>}}</td>
+            <% }) %>
+            <td><img class="thumbnail" ng-show="row.cdnUrl" src="{{row.cdnUrl}}" width="{{image_height}}" height="{{image_width}}"/><p ng-hide="row.cdnUrl">none</p></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="pagination-buttons">
+        <span ng-class="{disabled : !hasPrevious}" ng-click="paginatePrevious()" ><< Previous-</span><span>||</span>
+        <span ng-class="{disabled : !hasNext}" ng-click="paginateNext()">-Next >></span>
+    </div>​​
+</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​

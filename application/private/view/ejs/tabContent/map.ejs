@@ -1,0 +1,48 @@
+<!--
+ * Map Tab EJS template
+ * @file: /application/private/view/ejs/tabContent/map.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles all the map tab content.
+-->
+
+<h3 class="subheader">
+    <div class="row">
+        <div class="span8">Map of Observations Added By Users </div>
+        <div class="span2"><span data-original-title="You are viewing observation data in the Google Map below.
+                            Click on any map marker to obtain complete information about the observation in the Observation Details Popover Screen.
+                            <% if(manager){ %>
+                            This popover screen will also allow you to edit and delete an observation.
+                            <% }%>
+                            Selecting different filtration or sorting options will immediately reload the data." class="instructions-tooltip">Need Help?</span></div>
+    </div>
+</h3>
+<div class="mapCntrl" ng-controller="MapCntrl" >
+    <form class="well filter-container form-inline">
+        <strong class="filter-label">Filter By:</strong><br>
+        <label class="filter">Show Past:
+            <select class="span2" ng-model="daysLimit" ng-options="d.name for d in daysLimits" ng-change="getData()"></select>
+        </label>
+
+         <% typeConfig.fields.forEach(function(fieldObj){
+            if(fieldObj.filterable){ %>
+                <label class="filter"><%= fieldObj.ui_label %>
+                    <% if(fieldObj.tooltip_description){ %>
+                        <b class="toolTip_description" title="<%= fieldObj.tooltip_description %>">(?)</b>
+                    <% } %>:
+                    <select class="span2" ng-model="<%= fieldObj.db_field_name  %>" ng-options="d.name for d in <%= fieldObj.db_field_name  %>s" ng-change="getData()"></select>
+                </label>
+        <% }}) %>
+        <!-- This field needs to be last because it shows up dynamically and we dont know all the filters to move. -->
+        <label ng-show="localGpsArray" class="filter">Show Location Near Me:
+            <select class="span2" ng-model="distanceFilter" ng-options="d.name for d in distanceFilters" ng-change="getData()"></select>
+        </label>
+    </form>
+
+    <span class="total-num-results">
+        <strong >Total Number Of Results: </strong><span>{{totalCount}}</span>
+    </span><br>
+
+    <div class="map-canvas-container">
+        <div id="map_canvas_full" ></div>
+    </div>​​
+</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​

@@ -1,0 +1,81 @@
+<!--
+ * Add Tab EJS template
+ * @file: /application/private/view/ejs/tabContent/add.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles all the add tab content.
+-->
+
+<h3 class="subheader">
+    <div class="row">
+        <div class="span6">Add an Observation</div>
+        <div class="captions span2"><span>* Indicates required field</span></div>
+        <div class="span2"><span data-original-title="Fill in as much information as possible before hitting submit to save your observation." class="instructions-tooltip">Need Help?</span></div>
+    </div>
+</h3>
+
+<div class="addCntrl" ng-controller="AddCntrl" >
+    <form class="send-obs-form form-horizontal" ng-submit="submit()">
+
+        <% typeConfig.fields.forEach(function(fieldObj){
+            if(fieldObj.addForm){    %>
+                <div class="control-group">
+                    <label class="control-label"><span ng-show="<%= fieldObj.required %>" class="text-error">* </span> <%= fieldObj.ui_label %>:</label>
+                    <div class="controls">
+                        <% if(fieldObj.num_text_area_rows){ %>
+                            <textarea ng-model="<%= fieldObj.db_field_name  %>" rows="<%= fieldObj.num_text_area_rows  %>"></textarea>
+                        <% }else if(fieldObj.discrete_fields){ %>
+                            <select class="span2" ng-model="<%= fieldObj.db_field_name  %>" ng-options="d.name for d in <%= fieldObj.db_field_name  %>s" ></select>
+                        <% }else { %>
+                            <input ng-model="<%= fieldObj.db_field_name  %>" type="text" placeholder="<%= fieldObj.ui_label %>">
+                        <% } %>
+                    </div>
+                </div>
+            <%  }
+        }) %>
+
+        <div class="control-group">
+            <label class="control-label" for="location"><span class="text-error">* </span> Location:</label>
+            <div class="controls" ng-show="localGpsArray">
+                <label class="checkbox"><input ng-model="loc.useCurrentPosition" type="checkbox">Use My Current Location</label>
+            </div>
+            <div class="controls" ng-show="localGpsArray">
+                -or-
+            </div>
+            <div class="controls">
+                <input ng-model="loc.address" type="text" placeholder="Address" ng-readonly="loc.useCurrentPosition">
+            </div>
+            <div class="controls">
+                -or-
+            </div>
+            <div class="controls" >
+                <input type="text" ng-model="loc.gps.lat" placeholder=" GPS Latitute"  ng-readonly="loc.useCurrentPosition">
+                <input type="text" ng-model="loc.gps.long" placeholder=" GPS Longitude"  ng-readonly="loc.useCurrentPosition">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="image">Image Upload:</label>
+            <div class="controls">
+                <input class="input-xlarge fileupload" id="upload_file" type="file" name="file" placeholder="Click here to select image file">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email"><span class="text-error">* </span> Email:</label>
+            <div class="controls">
+                <input class="input-xlarge" type="text" name="email" ng-model="email" placeholder="Email">
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">Submit Observation</button>
+                <img class="loading add-observation" src="http://jimpunk.net/Loading/wp-content/uploads/loading68.gif">
+                <p class="add-observation-error text-error" ng-model="errorText"></p>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+​

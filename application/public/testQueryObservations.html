@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        /*
+         * @post body: All fields optional. matches can contain any number of field-value combinations but fields cannot be duplicated.
+         * Schema for input:
+         *  {
+         *      matches:{
+         *          'fieldKey': 'exact match value',
+         *          'fieldKey': /javascript regex/
+         *      },
+         *      location:{
+         *          near: [40.88888, -50.678898] //find docs near this location
+         *          maxDistance: 'number'
+         *      },
+         *      minDate: 'date',
+         *      sort:{
+         *          field: 'fieldName'
+         *          order: ('asc' or 'desc')
+         *      }
+         *      limit: 'number'
+         *      skip:'number'
+         *  }
+         *
+        *  Schema for output going to be recieved is an array of JSON like the following:
+        *       {
+        *           completed: 'No',
+                    description: 'hi',
+                    issue_type: 'Broken Bench',
+                    email: 'vbslds@fhsdk.com',
+                    location: [ 37.76796849999999, -122.4278309 ],
+                    observation_date: '2012-11-29T08:05:14.650Z',
+                    file_info:{
+                        grid_filename: '50b7173a274a9130b8000007',
+                        original_filename: 'Screen Shot 2012-10-11 at 12.41.12 PM.png',
+                        mime_type: 'image/png'
+                    },
+                    _id: 50b71742274a9130b800000c,
+                    cdnUrl: 'http://localhost:5001/50b7173a274a9130b8000007/Screen Shot 2012-10-11 at 12.41.12 PM.png'
+                },
+        *
+        *      */
+
+        $(document).ready(function() {
+            var queryParams={
+                matches: {
+                    issue_type: 'Broken Bench'
+                },
+                /*
+                location:{
+                    near: [40.88888, -50.678888],
+                    maxDistance: 2
+                },
+                */
+                limit: 10
+            };
+            $('.qButton').click(function(){
+                $.post("/observations/", queryParams,
+                    function(data){
+                        console.log(data); // John
+                        if(typeof data == 'object'){
+                            $('.result').html(syntaxHighlight(data));
+                        }
+
+                    },
+                    "json");
+            });
+        });
+
+        //utility function for displaying results - don't pay attention to this.
+        function syntaxHighlight(json) {
+            if (typeof json != 'string') {
+                json = JSON.stringify(json, undefined, 2);
+                console.log('stringifying');
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+     </script>
+
+</head>
+<body>
+    <button class="qButton">Push to query</button><br><br>
+    <pre><span class="result"></span></pre>
+</body>
+</html>

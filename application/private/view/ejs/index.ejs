@@ -1,0 +1,42 @@
+<!--
+ * index EJS template
+ * @file: /application/private/view/ejs/index.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles the includes of css, js and other templates. The is where the partial template includes start.
+-->
+<!DOCTYPE html>
+
+<!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> --><!-- Respected by phones for google map -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<head>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDADaqtjPM4bl7f52NwU_f0rg544YEC62s&sensor=true&region=US"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script src="/js/utility.js"></script>
+    <script src="/js/controllers/map.js"></script>
+    <script src="/js/controllers/home.js"></script>
+    <script src="/js/controllers/list.js"></script>
+    <script src="/js/controllers/modal.js"></script>
+    <script src="/js/controllers/add.js"></script>
+    <script src="/js/googleMap.js"></script>
+    <script src="/js/tabModule.js"></script>
+    <script type="text/javascript">
+        var extraFieldsArr= JSON.parse('<%- JSON.stringify(typeConfig.fields) %>');
+        $(document).ready(function(){
+            $('span.instructions-tooltip').popover({placement: 'bottom'});
+        })
+    </script>
+</head>
+<body ng-app="tabModule">
+<%- partial('header') %>
+<%- partial('tabs') %>
+<%- partial('modal') %>
+
+</body>
+</html>

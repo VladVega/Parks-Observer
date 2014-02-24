@@ -1,0 +1,67 @@
+<!--
+ * Modal EJS template
+ * @file: /application/private/view/ejs/modal.ejs
+ * @author: Vladimir Bukhin
+ * @Description: EJS tenmplate that handles the modal content for the web application.
+-->
+<div class="modal hide fade" id="globalModal"  ng-controller="ModalCntrl">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Single Observation View <small>#{{data._id}}</small></h3>
+    </div>
+    <div class="modal-body">
+        <div class="row-fluid">
+            <div class="span6">
+                <dl>
+                    <dt>Date</dt>
+                    <dd>{{formatDate(data.observation_date)}}</dd>
+                    <% if(manager){ %>
+                        <dt>Email:</dt>
+                        <dd>{{data.email}}</dd>
+                    <% } %>
+                    <dt>GPS Coordinates [Lat,Lng]:</dt>
+                    <dd>{{data.location}}</dd>
+                    <% typeConfig.fields.forEach(function(fieldObj){ %>
+                        <dt><%= fieldObj.ui_label %></dt>
+                        <dd ng-hide="editing">{{data.<%= fieldObj.db_field_name %>}}</dd>
+                    <!--need form -->
+                        <dd ng-show="editing">
+                            <% if(fieldObj.num_text_area_rows){ %>
+                            <textarea ng-model="<%= fieldObj.db_field_name  %>" rows="<%= fieldObj.num_text_area_rows  %>"></textarea>
+                            <% }else if(fieldObj.discrete_fields){ %>
+                            <select  ng-model="<%= fieldObj.db_field_name  %>" ng-options="d.name for d in <%= fieldObj.db_field_name  %>s" ></select>
+                            <% }else { %>
+                            <input ng-model="<%= fieldObj.db_field_name  %>" type="text" placeholder="<%= fieldObj.ui_label %>">
+                            <% } %>
+                        </dd>
+                    <% }) %>
+                </dl>
+            </div>
+            <div ng-show="data.cdnUrl" class="span6">
+                <img class="modal-image img-polaroid" src="{{data.cdnUrl}}"/>
+                <img class="loading-modal-image" src="http://jimpunk.net/Loading/wp-content/uploads/loading68.gif">
+            </div>
+            <div ng-hide="data.cdnUrl" class="span6">
+                <p>(no image exists)</p>
+            </div>
+            <div id="map_canvas_one_marker" class="span6">
+                <img class="loading-map" src="http://jimpunk.net/Loading/wp-content/uploads/loading68.gif">
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <% if(manager){ %>
+            <a ng-hide="editing" ng-click="editing = true" class="btn btn-primary">Editing View</a>
+            <span ng-show="editing">
+                <a ng-click="deleteEntry()" data-dismiss="modal" class="btn delete-button">Delete Observation</a>
+                <span class='save-changes-container'>
+                    <a ng-click="saveChanges()" class="btn btn-primary">Save Changes</a>
+                    <img ng-show="savingInProgress" class="loading save-observation-changes" src="http://jimpunk.net/Loading/wp-content/uploads/loading68.gif">
+                </span>
+                <a  ng-click="editing = false"  class="btn">Exit Editing View</a>
+            </span>
+        <% } %>
+    </div>
+</div>
